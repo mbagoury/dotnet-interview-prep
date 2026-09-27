@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senior .NET & Architecture Interview Platform</title>
+  <meta name="description" content="Senior .NET & Architecture technical interview system covering 353 questions across 20 chapters plus the complete SOLID Principles & Design Patterns Masterclass.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+  <!-- Top App Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="#" class="brand-wrapper" id="brand-home-btn">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <h1>.NET Architect Interview <span class="badge-counter" id="total-q-badge">353 Qs</span></h1>
+          <p id="brand-subtitle">Chapters 1–20 Full Reference + SOLID Masterclass</p>
+        </div>
+      </a>
+
+      <nav class="nav-tabs" aria-label="Main Navigation">
+        <button class="nav-tab-btn active" data-view="view-interview" id="tab-interview">
+          <span>🎙️</span> Conduct Interview
+        </button>
+        <button class="nav-tab-btn" data-view="view-top5" id="tab-top5">
+          <span>🎯</span> Must-Ask Top 5
+        </button>
+        <button class="nav-tab-btn" data-view="view-explorer" id="tab-explorer">
+          <span>📚</span> Question Bank
+        </button>
+        <button class="nav-tab-btn" data-view="view-revision" id="tab-revision">
+          <span>🚀</span> 25-Ch Revision
+        </button>
+        <button class="nav-tab-btn feature-hidden" data-view="view-solid" id="tab-solid" style="display: none;">
+          <span>💎</span> SOLID Masterclass
+        </button>
+        <button class="nav-tab-btn" data-view="view-flashcards" id="tab-flashcards">
+          <span>⚡</span> Flashcards
+        </button>
+        <button class="nav-tab-btn" data-view="view-history" id="tab-history">
+          <span>📊</span> Past Candidates
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Logged-in User Profile Widget -->
+        <div class="user-profile-header" id="user-profile-header" style="display: none;">
+          <div class="user-avatar-pill" id="header-user-avatar">AV</div>
+          <div class="user-details-mini">
+            <span class="user-name-text" id="header-user-name">Alex Vance</span>
+            <span class="user-role-text" id="header-user-role">Lead Architect</span>
+          </div>
+          <button class="btn btn-outline btn-sm logout-btn" id="logout-btn" title="Sign Out of Platform">
+            <span>🚪</span> Logout
+          </button>
+        </div>
+
+        <button class="btn btn-primary btn-sm login-nav-btn" id="login-nav-btn" style="display: none;">
+          <span>🔑</span> Sign In
+        </button>
+
+        <button class="sound-toggle-btn" id="sound-toggle-btn" title="Toggle Sound Effects (On/Off)" aria-label="Toggle audio effects">
+          <span id="sound-icon">🔊</span>
+        </button>
+        <div class="theme-switch-container" id="theme-toggle-box" title="Toggle Dark Mode On or Off (Shortcut: Alt+D)">
+          <label class="theme-switch" for="dark-mode-checkbox">
+            <input type="checkbox" id="dark-mode-checkbox" checked>
+            <span class="theme-slider"></span>
+          </label>
+          <span class="theme-switch-label" id="dark-mode-label">
+            <span id="dark-mode-icon">🌙</span> Dark Mode: <span class="theme-status-pill on" id="dark-mode-pill">ON</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Router Container -->
+  <main class="app-main">
+
+    <!-- ======================================================================
+         0. AUTHENTICATION & LOGIN VIEW
+         ====================================================================== -->
+    <section id="view-login" class="view-section">
+      <div class="login-wrapper">
+        <div class="login-card glass-card">
+          <div class="login-header">
+            <div class="login-brand-icon">⚡</div>
+            <h2>Sign In to Platform</h2>
+            <p>Senior .NET & Architecture Technical Assessment Suite</p>
+          </div>
+
+          <!-- Login Form -->
+          <form id="login-form" class="login-form" autocomplete="on">
+            <div class="form-group">
+              <label for="login-username">Username or Corporate Email</label>
+              <div class="input-with-icon">
+                <span class="input-icon">👤</span>
+                <input type="text" id="login-username" class="form-control" placeholder="e.g. architect or architect@dotnet.local" required autocomplete="username">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <div class="input-with-icon">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+                <button type="button" class="password-toggle-btn" id="toggle-password-btn" title="Show/Hide Password" aria-label="Toggle password visibility">👁️</button>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+                <input type="checkbox" id="login-remember-me" checked>
+                <span>Remember me on this browser</span>
+              </label>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Protected by Auth Guard</span>
+            </div>
+
+            <div id="login-error-alert" class="login-error-alert" style="display: none;">
+              <!-- Error message displayed here -->
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg login-submit-btn" id="submit-login-btn">
+              <span>🚀</span> Sign In to Platform
+            </button>
+          </form>
+
+          <div class="login-footer">
+            <p>Configured users & feature flags loaded from <code class="code-badge">config.json</code></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         1. CONDUCT INTERVIEW VIEW
+         ====================================================================== -->
+    <section id="view-interview" class="view-section active">
+      
+      <!-- Interview Setup Wizard (Visible before interview starts) -->
+      <div id="interview-setup-panel" class="setup-container">
+        <div class="setup-hero">
+          <h2>🎙️ Technical Interview Cockpit</h2>
+          <p>Configure a structured technical interview session for Senior .NET Developers and Software Architects.</p>
+        </div>
+
+        <div class="glass-card">
+          <div class="setup-grid">
+            
+            <!-- Left Column: Candidate & Mode Configuration -->
+            <div>
+              <div class="form-group">
+                <label for="candidate-name-input">Candidate Name / Identifier</label>
+                <input type="text" id="candidate-name-input" class="form-control" placeholder="e.g. Alex Morgan" value="Candidate 1">
+              </div>
+
+              <div class="form-group">
+                <label for="candidate-role-select">Target Position / Seniority</label>
+                <select id="candidate-role-select" class="form-control">
+                  <option value="Senior .NET Backend Engineer" selected>Senior .NET Backend Engineer</option>
+                  <option value="Lead Software Architect">Lead Software Architect</option>
+                  <option value="Cloud & Microservices Architect">Cloud & Microservices Architect</option>
+                  <option value="Full-Stack .NET Tech Lead">Full-Stack .NET Tech Lead</option>
+                  <option value="Mid-to-Senior .NET Developer">Mid-to-Senior .NET Developer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Interview Preset Round</label>
+                <div class="preset-list" id="preset-list-container">
+                  <!-- Populated dynamically from INTERVIEW_DATA.presets -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Question Selection & Options -->
+            <div>
+              <div class="form-group">
+                <label>Or Select Custom Chapters to Cover</label>
+                <div class="chapter-checklist" id="chapter-checklist-container">
+                  <!-- Populated dynamically with all 20 chapters -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="question-count-select">Number of Questions</label>
+                <select id="question-count-select" class="form-control">
+                  <option value="5">5 Questions (Quick Litmus Check)</option>
+                  <option value="10">10 Questions (30 Minutes)</option>
+                  <option value="15" selected>15 Questions (45 Minutes - Recommended)</option>
+                  <option value="20">20 Questions (60 Minutes Comprehensive)</option>
+                  <option value="all">All Selected Questions</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="difficulty-mix-select">Question Pool Mix</label>
+                <select id="difficulty-mix-select" class="form-control">
+                  <option value="balanced" selected>Balanced (Standard + Advanced Extras)</option>
+                  <option value="standard">Standard Core Questions Only (Q1–Q253)</option>
+                  <option value="advanced">Advanced Extras Only (C1-A1..C20-A5)</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="setup-actions-row" style="display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+            <button class="btn btn-outline" id="reset-setup-btn">Reset Defaults</button>
+            <button class="btn btn-primary btn-lg" id="start-interview-btn">
+              <span>🚀</span> Start Interview Session
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Interview Cockpit (Visible when interview is running) -->
+      <div id="interview-live-panel" class="live-cockpit" style="display: none;">
+        
+        <!-- Main Question & Progressive Disclosure Column -->
+        <div>
+          <div class="glass-card">
+            
+            <div class="cockpit-header">
+              <div class="candidate-badge">
+                <div class="candidate-avatar" id="live-candidate-avatar">AM</div>
+                <div>
+                  <h3 id="live-candidate-name" style="font-size: 1.05rem; font-weight: 700;">Alex Morgan</h3>
+                  <p id="live-candidate-role" style="font-size: 0.8rem; color: var(--text-muted);">Senior .NET Backend Engineer</p>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="timer-box">
+                  <span class="timer-pulse"></span>
+                  <span id="interview-total-timer">00:00</span>
+                </div>
+                <button class="btn btn-outline btn-sm" id="pause-timer-btn" title="Pause / Resume Timer">⏸️</button>
+              </div>
+            </div>
+
+            <!-- Current Question Card -->
+            <div class="question-card-hero">
+              <div class="q-meta-row">
+                <span class="badge badge-chapter" id="live-q-chapter">Chapter 1 - C# Advanced</span>
+                <span class="badge badge-standard" id="live-q-id">Q1</span>
+                <span class="badge" id="live-q-category">Language & Runtime</span>
+                <span class="badge badge-advanced" id="live-q-advanced-tag" style="display: none;">Advanced Extra</span>
+              </div>
+              <h2 class="question-text" id="live-q-text">Loading question text...</h2>
+            </div>
+
+            <!-- Progressive Disclosure Guides for Interviewer -->
+            <div class="interviewer-drawer">
+              
+              <!-- Standard Expected Answer -->
+              <div class="disclosure-card answer-card open" id="drawer-answer">
+                <button class="disclosure-trigger" data-target="drawer-answer">
+                  <span>📖 Standard Expected Answer</span>
+                  <span class="trigger-icon">▾</span>
+                </button>
+                <div class="disclosure-content">
+                  <p id="live-q-answer">Standard answer text...</p>
+                </div>
+              </div>
+
+              <!-- Best Practice & Code Example -->
+              <div class="disclosure-card best-practice-card open" id="drawer-bp">
+                <button class="disclosure-trigger" data-target="drawer-bp">
+                  <span>💡 Best Practice / Fast C# Example</span>
+                  <span class="trigger-icon">▾</span>
+                </button>
+                <div class="disclosure-content">
+                  <p id="live-q-bp">Best practice text...</p>
+                </div>
+              </div>
+
+              <!-- Anti-patterns & Common Wrong Usage -->
+              <div class="disclosure-card wrong-usage-card open" id="drawer-wu">
+                <button class="disclosure-trigger" data-target="drawer-wu">
+                  <span>⚠️ Watch for Common Pitfalls / Wrong Answers</span>
+                  <span class="trigger-icon">▾</span>
+                </button>
+                <div class="disclosure-content">
+                  <p id="live-q-wu">Wrong usage problem text...</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Cockpit Bottom Navigation Controls -->
+            <div class="cockpit-actions">
+              <button class="btn btn-outline" id="prev-question-btn">
+                <span>←</span> Previous
+              </button>
+              <div class="cockpit-nav-group" style="display: flex; gap: 0.75rem;">
+                <button class="btn btn-secondary" id="skip-question-btn">Skip</button>
+                <button class="btn btn-primary" id="next-question-btn">
+                  Next Question <span>→</span>
+                </button>
+                <button class="btn btn-success" id="finish-interview-btn" style="display: none;">
+                  <span>📋</span> Finish & Generate Scorecard
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Sidebar Evaluator & Scoring Column -->
+        <div>
+          <div class="glass-card sidebar-scoring">
+            
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">Interview Progress</label>
+                <span id="live-progress-text" style="font-size: 0.8rem; font-weight: 600; color: #a5b4fc;">Question 1 of 15</span>
+              </div>
+              <div class="progress-track" style="margin-bottom: 0.8rem;">
+                <div class="progress-fill" id="live-progress-bar" style="width: 7%;"></div>
+              </div>
+              
+              <!-- Question Jump Matrix -->
+              <div class="question-nav-grid" id="question-nav-grid">
+                <!-- Populated dynamically with question numbers -->
+              </div>
+            </div>
+
+            <!-- Scoring Rubric (1-5) -->
+            <div>
+              <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">Rate Candidate Answer</label>
+              <div class="score-selector" id="score-selector-buttons">
+                <button class="score-btn" data-score="1" title="Unsatisfactory">
+                  <span>1</span>
+                  <small>Poor</small>
+                </button>
+                <button class="score-btn" data-score="2" title="Weak / Significant Gaps">
+                  <span>2</span>
+                  <small>Weak</small>
+                </button>
+                <button class="score-btn" data-score="3" title="Average / Acceptable">
+                  <span>3</span>
+                  <small>Fair</small>
+                </button>
+                <button class="score-btn" data-score="4" title="Good / Senior Level">
+                  <span>4</span>
+                  <small>Good</small>
+                </button>
+                <button class="score-btn" data-score="5" title="Exceptional / Architect Depth">
+                  <span>5</span>
+                  <small>Master</small>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Observation Tags -->
+            <div>
+              <label style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">Quick Observations</label>
+              <div class="quick-tags-container" id="quick-tags-container">
+                <span class="quick-tag" data-tag="Deep Internals">Deep Internals</span>
+                <span class="quick-tag" data-tag="Mentioned Edge Cases">Mentioned Edge Cases</span>
+                <span class="quick-tag" data-tag="Gave Code Example">Gave Code Example</span>
+                <span class="quick-tag" data-tag="Aware of Anti-patterns">Aware of Anti-patterns</span>
+                <span class="quick-tag" data-tag="Pragmatic Trade-offs">Pragmatic Trade-offs</span>
+                <span class="quick-tag" data-tag="Needed Prompting">Needed Prompting</span>
+                <span class="quick-tag" data-tag="Outdated / Leaky">Outdated / Leaky</span>
+                <span class="quick-tag" data-tag="Surface Level Only">Surface Level Only</span>
+              </div>
+            </div>
+
+            <!-- Private Interviewer Notes -->
+            <div>
+              <label for="live-interviewer-notes" style="font-weight: 700; font-size: 0.85rem; color: var(--text-secondary);">Interviewer Notes for this Question</label>
+              <textarea id="live-interviewer-notes" class="form-control" rows="4" placeholder="Record candidate specific strengths, code phrasing, or gaps..."></textarea>
+            </div>
+
+            <div>
+              <button class="btn btn-outline btn-sm" id="abort-interview-btn" style="width: 100%; color: var(--danger); border-color: var(--danger-border);">
+                Abandon Interview
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         MUST-ASK TOP 5 QUESTIONS PER SECTION (INTERVIEWER CHEAT SHEET)
+         ====================================================================== -->
+    <section id="view-top5" class="view-section">
+      <div class="top5-hero">
+        <div class="top5-hero-badge">
+          <span>🎯</span> Senior & Architect Interview Blueprint
+        </div>
+        <h2>Interviewer's Must-Ask Top 5 Questions per Section</h2>
+        <p class="top5-hero-desc">
+          The 5 highest-signal questions from each of the 20 architectural domains. Curated to evaluate deep technical foundation, design discernment, and senior trade-offs.
+        </p>
+
+        <!-- Quick Summary Stats Pills -->
+        <div class="top5-stats-bar">
+          <div class="top5-stat-pill">
+            <span class="stat-number">20</span>
+            <span class="stat-label">Architectural Sections</span>
+          </div>
+          <div class="top5-stat-pill">
+            <span class="stat-number">100</span>
+            <span class="stat-label">Curated Questions</span>
+          </div>
+          <div class="top5-stat-pill">
+            <span class="stat-number">1-Click</span>
+            <span class="stat-label">Live Interview Launch</span>
+          </div>
+          <div class="top5-stat-pill">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Covering Q1–Q253 + Extras</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interviewer Control Toolbar -->
+      <div class="top5-toolbar glass-card">
+        <!-- Search bar -->
+        <div class="search-bar-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="top5-search-input" class="search-input" placeholder="Search top 5 questions by keyword (e.g. LOH, Span, Captive, Saga, Outbox, Deadlock, B-tree)...">
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="filter-row">
+          <div class="top5-category-chips" id="top5-category-chips" style="display: flex; align-items: center; gap: 0.5rem; flex: 1; flex-wrap: wrap;">
+            <button class="filter-pill active" data-category="all">All Topics</button>
+            <button class="filter-pill" data-category="Language & Runtime">Language & CLR</button>
+            <button class="filter-pill" data-category="ASP.NET Core & APIs">ASP.NET Core</button>
+            <button class="filter-pill" data-category="Dependency Injection">DI Container</button>
+            <button class="filter-pill" data-category="Data Access & SQL">EF Core & SQL</button>
+            <button class="filter-pill" data-category="Async & Concurrency">Async & Threading</button>
+            <button class="filter-pill" data-category="Architecture & DDD">Clean Arch & DDD</button>
+            <button class="filter-pill" data-category="Design Patterns & SOLID">Design Patterns</button>
+            <button class="filter-pill" data-category="Microservices & Distributed">Microservices</button>
+            <button class="filter-pill" data-category="Messaging & Caching">Messaging & Redis</button>
+            <button class="filter-pill" data-category="DevOps & Cloud">Docker & K8s</button>
+            <button class="filter-pill" data-category="Security & Observability">Auth & Observability</button>
+          </div>
+        </div>
+
+        <!-- Chapter Jump & Action Buttons -->
+        <div class="top5-actions-row">
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <select id="top5-chapter-select" class="form-control select-responsive">
+              <option value="all">Jump to Section (All 20 Chapters)</option>
+              <!-- Filled dynamically by app.js -->
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" id="top5-expand-all-btn">
+              <span>▾</span> Expand All Answers
+            </button>
+            <button class="btn btn-secondary btn-sm" id="top5-collapse-all-btn">
+              <span>▴</span> Collapse All
+            </button>
+            <button class="btn btn-outline btn-sm" id="top5-print-btn" title="Open print-friendly view to print or save PDF cheat sheet">
+              <span>🖨️</span> Print Cheat Sheet
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+          <span id="top5-count-label">Showing 20 sections (100 questions)</span>
+          <span style="font-size: 0.8rem;">💡 Tip: Click <strong>"🚀 Interview This Section"</strong> to immediately run a 5-question round with candidate</span>
+        </div>
+      </div>
+
+      <!-- Sections & Questions Grid -->
+      <div id="top5-sections-container" class="top5-sections-list">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         2. QUESTION BANK EXPLORER VIEW
+         ====================================================================== -->
+    <section id="view-explorer" class="view-section">
+      <div class="explorer-header">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.8rem; font-weight: 800;">📚 Master Question Bank</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">All 353 senior-level interview questions and architectural best practices.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" id="expand-all-questions-btn">Expand All</button>
+            <button class="btn btn-secondary btn-sm" id="collapse-all-questions-btn">Collapse All</button>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="explorer-search-input" class="search-input" placeholder="Search by concept, keywords (e.g. Outbox, Saga, Span, LOH, Kafka, MediatR, Invariant)...">
+        </div>
+
+        <!-- Filter Chips & Selectors -->
+        <div class="filter-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1; flex-wrap: wrap;">
+            <button class="filter-pill active" data-category="all">All Topics</button>
+            <button class="filter-pill" data-category="Language & Runtime">Language & CLR</button>
+            <button class="filter-pill" data-category="ASP.NET Core & APIs">ASP.NET Core</button>
+            <button class="filter-pill" data-category="Dependency Injection">DI Container</button>
+            <button class="filter-pill" data-category="Data Access & SQL">EF Core & SQL</button>
+            <button class="filter-pill" data-category="Async & Concurrency">Async & Threading</button>
+            <button class="filter-pill" data-category="Architecture & DDD">Clean Arch & DDD</button>
+            <button class="filter-pill" data-category="Design Patterns & SOLID">Design Patterns</button>
+            <button class="filter-pill" data-category="Microservices & Distributed">Microservices</button>
+            <button class="filter-pill" data-category="Messaging & Caching">Messaging & Redis</button>
+            <button class="filter-pill" data-category="DevOps & Cloud">Docker & K8s</button>
+            <button class="filter-pill" data-category="Security & Observability">Auth & Observability</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div class="explorer-filter-controls" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <select id="explorer-chapter-filter" class="form-control select-responsive">
+              <option value="all">All 20 Chapters</option>
+              <!-- Filled dynamically -->
+            </select>
+
+            <select id="explorer-tier-filter" class="form-control select-responsive">
+              <option value="all">All Tiers (Standard & Advanced)</option>
+              <option value="standard">Standard Questions (Q1–Q253)</option>
+              <option value="advanced">Advanced Extras (C1-A1..C20-A5)</option>
+            </select>
+
+            <button class="btn btn-outline btn-sm" id="filter-starred-only-btn">
+              <span>⭐</span> Starred Only
+            </button>
+          </div>
+
+          <div style="font-size: 0.85rem; color: var(--text-muted);" id="explorer-count-label">
+            Showing 353 questions
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Question Cards List Container -->
+      <div class="question-cards-grid" id="explorer-question-cards">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. SOLID MASTERCLASS VIEW (Document 3 Deep-Dive)
+         ====================================================================== -->
+    <section id="view-solid" class="view-section">
+      
+      <div class="solid-hero">
+        <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #c7d2fe; margin-bottom: 0.5rem;">Document 3 Deep-Dive</span>
+        <h2>💎 SOLID Principles وعلاقتها بالـ Design Patterns</h2>
+        <p style="color: var(--text-secondary); max-width: 750px; margin: 0 auto;">دليل عملي لمطوّر ومهندس برمجيات .NET مع كود C# المقارن، ربط كل مبدأ بالأنماط المعمارية المناسبة، وإجابة نموذجية جاهزة للمقابلات.</p>
+        
+        <div class="solid-rule-quote">
+          <p style="font-weight: 700; color: #a5b4fc; margin-bottom: 0.3rem;">📌 قاعدة ذهبية للمقابلة (The Interview Golden Rule):</p>
+          <p style="margin-bottom: 0.4rem;">"Principles تخبرك <strong>كيف تفكر في التصميم</strong>، أما Patterns فتعطيك <strong>أدوات وحلولاً عملية</strong> لتنفيذ هذا التصميم."</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">"Principles guide how you THINK about architecture; Patterns give you concrete TOOLS and practical solutions to implement it."</p>
+        </div>
+      </div>
+
+      <!-- Ready Interview Pitch Box -->
+      <div class="pitch-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+          <div>
+            <span class="badge badge-advanced">Executive Interview Script</span>
+            <h3 style="font-size: 1.15rem; margin-top: 0.4rem;">إجابة جاهزة ومحترفة لسؤال "What is the relationship between SOLID and Design Patterns?"</h3>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="copy-solid-pitch-btn">
+            <span>📋</span> Copy English Answer
+          </button>
+        </div>
+        
+        <p class="pitch-text" id="solid-pitch-content">
+          "SOLID is a set of object-oriented design principles that improves maintainability, extensibility, testability, and reduces coupling. Design patterns are reusable solutions that help implement these principles. For example, Strategy and Decorator support OCP, small role-based interfaces support ISP, interchangeable implementations must respect LSP, Command and Mediator help with SRP, and Dependency Injection, Adapter, and Abstract Factory support DIP."
+        </p>
+
+        <div style="background: rgba(0,0,0,0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--warning); margin-top: 0.8rem; font-size: 0.85rem;">
+          <strong style="color: #fcd34d;">💡 نقطة تميز تفصل المرشح الـ Senior:</strong> لا تقل أبداً إن كل Principle يقابله Pattern واحد فقط بشكل مباشر. وضّح دائماً أن العلاقة <em>Many-to-Many</em> وأن اختيار الـ Pattern يعتمد على المشكلة والسياق المعماري.
+        </div>
+      </div>
+
+      <!-- Quick Map Matrix Table -->
+      <div class="glass-card" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.15rem;">🗺️ خريطة الربط السريعة (Quick Mapping Matrix)</h3>
+        <div class="solid-table-wrapper">
+          <table class="solid-table" id="solid-quick-map-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">المبدأ (Principle)</th>
+                <th>الفكرة الأساسية (Core Idea)</th>
+                <th>Patterns تساعد في التطبيق</th>
+                <th>المشكلة التي يمنعها (Anti-pattern)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rendered from INTERVIEW_DATA.solidMasterclass.quickMap -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Principles Interactive Deep Dive -->
+      <div class="glass-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.2rem;">🔍 تفاصيل المبادئ مع كود C# المقارن</h3>
+        </div>
+
+        <div class="solid-tabs" id="solid-principle-tabs">
+          <button class="solid-tab-btn active" data-principle="SRP">S — Single Responsibility</button>
+          <button class="solid-tab-btn" data-principle="OCP">O — Open/Closed</button>
+          <button class="solid-tab-btn" data-principle="LSP">L — Liskov Substitution</button>
+          <button class="solid-tab-btn" data-principle="ISP">I — Interface Segregation</button>
+          <button class="solid-tab-btn" data-principle="DIP">D — Dependency Inversion</button>
+        </div>
+
+        <div id="solid-detail-container">
+          <!-- Dynamic Principle Detail populated by app.js -->
+        </div>
+      </div>
+
+      <!-- Unified 5-in-1 SOLID Example -->
+      <div class="glass-card" style="margin-bottom: 2rem;">
+        <div style="margin-bottom: 1rem;">
+          <span class="badge badge-chapter">End-to-End Practical Architecture</span>
+          <h3 style="font-size: 1.25rem; margin-top: 0.4rem;">🌟 مثال عملي متكامل يجمع مبادئ SOLID الخمسة معاً</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">نظام إشعارات متعدد القنوات (Multi-Channel Notification System) يوضح كيف تتكامل المبادئ في كود إنتاجي نظيف وقابل للاختبار.</p>
+        </div>
+
+        <div class="code-box code-box-good" style="margin-bottom: 1.25rem;">
+          <div class="code-box-header">
+            <span>✅ Production C# Implementation</span>
+            <button class="btn btn-outline btn-sm" id="copy-unified-code-btn">Copy C# Code</button>
+          </div>
+          <pre id="unified-code-block"></pre>
+        </div>
+
+        <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: #a5b4fc;">كيف حقق هذا المثال مبادئ SOLID؟</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem;" id="unified-breakdown-container">
+          <!-- Populated from data.js -->
+        </div>
+      </div>
+
+      <!-- Self-Interview Checklist -->
+      <div class="glass-card">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.15rem;">✅ أسئلة سريعة للمراجعة الذاتية في المقابلة (Self-Assessment Checklist)</h3>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">اطرح هذه الأسئلة على الكود الخاص بك للتأكد من احترامه الكامل للمعايير المعمارية:</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.6rem;" id="solid-checklist-container">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         3.5 SENIOR .NET / BACKEND INTERVIEW REVISION VIEW (25 Chapters — 75 Q&As)
+         ====================================================================== -->
+    <section id="view-revision" class="view-section">
+      
+      <!-- Revision Hero -->
+      <div class="revision-hero glass-card">
+        <div class="revision-hero-badge-wrap">
+          <span class="badge badge-advanced">Senior .NET / Backend Architecture Guide</span>
+          <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">75 Curated Q&As</span>
+          <span class="badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">Checklist & Formula</span>
+        </div>
+        <h2>🚀 Senior .NET / Backend Interview Revision</h2>
+        <p class="revision-hero-sub">25 High-Impact Chapters — 75 Crucial Architecture, Distributed Systems, Performance & System Design Questions with Best Practices and Real-World Answers.</p>
+        
+        <!-- Metrics Bar -->
+        <div class="revision-stats-bar">
+          <div class="revision-stat-item">
+            <span class="revision-stat-val">25</span>
+            <span class="revision-stat-lbl">Chapters</span>
+          </div>
+          <div class="revision-stat-item">
+            <span class="revision-stat-val">75</span>
+            <span class="revision-stat-lbl">Q&A Pairs</span>
+          </div>
+          <div class="revision-stat-item">
+            <span class="revision-stat-val">100%</span>
+            <span class="revision-stat-lbl">Best Practices & Pitfalls</span>
+          </div>
+          <div class="revision-stat-item">
+            <span class="revision-stat-val">7-Step</span>
+            <span class="revision-stat-lbl">Senior Answer Formula</span>
+          </div>
+        </div>
+
+        <!-- Hero Quick Action Buttons -->
+        <div class="revision-hero-actions">
+          <button class="btn btn-secondary btn-sm" id="revision-jump-formula-btn">
+            <span>⚡</span> Senior Answer Formula
+          </button>
+          <button class="btn btn-secondary btn-sm" id="revision-jump-checklist-btn">
+            <span>📋</span> Senior Interview Checklist
+          </button>
+          <button class="btn btn-outline btn-sm" id="revision-copy-markdown-btn">
+            <span>📝</span> Copy Full Markdown
+          </button>
+          <button class="btn btn-outline btn-sm" id="revision-print-btn">
+            <span>🖨️</span> Print / Save PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Revision Progress & Filter Toolbar -->
+      <div class="glass-card revision-control-panel" style="margin-bottom: 1.5rem;">
+        <div class="revision-progress-row">
+          <div class="revision-progress-info">
+            <span class="revision-progress-title">🎯 Revision Mastery Tracker</span>
+            <span class="revision-progress-text" id="revision-mastery-text">0 of 75 Mastered (0%)</span>
+          </div>
+          <div class="revision-progress-bar-wrap">
+            <div class="revision-progress-bar-fill" id="revision-mastery-fill" style="width: 0%;"></div>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="revision-reset-mastery-btn" title="Reset all mastered checkmarks">Reset Progress</button>
+        </div>
+
+        <div class="revision-toolbar">
+          <div class="revision-search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="revision-search-input" class="form-control" placeholder="Search 75 questions, topics, best practices, code snippets, or mistakes...">
+            <button id="revision-search-clear-btn" class="search-clear-btn" style="display: none;">✕</button>
+          </div>
+
+          <div class="revision-filter-row">
+            <div class="select-wrapper" style="min-width: 220px;">
+              <select id="revision-chapter-select" class="form-control">
+                <option value="all">All 25 Chapters</option>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <button class="btn btn-outline btn-sm" id="revision-toggle-all-expand-btn">
+              <span id="revision-toggle-all-icon">📂</span> <span id="revision-toggle-all-text">Expand All</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="revision-category-pills" id="revision-category-pills">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Formula Anchor Section -->
+      <div id="revision-formula-anchor"></div>
+      <div id="revision-formula-box" class="revision-formula-card glass-card" style="margin-bottom: 2rem;">
+        <!-- Populated dynamically by app.js from REVISION_DATA.formula -->
+      </div>
+
+      <!-- Questions Stream Container -->
+      <div id="revision-questions-container" class="revision-questions-stream">
+        <!-- Dynamically rendered chapter by chapter -->
+      </div>
+
+      <!-- Checklist Anchor Section -->
+      <div id="revision-checklist-anchor"></div>
+      <div id="revision-checklist-box" class="glass-card revision-checklist-card" style="margin-top: 2rem; margin-bottom: 2rem;">
+        <!-- Populated dynamically by app.js from REVISION_DATA.checklist -->
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         4. FLASHCARDS ACTIVE RECALL VIEW
+         ====================================================================== -->
+    <section id="view-flashcards" class="view-section">
+      <div class="setup-hero">
+        <h2>⚡ Active Recall Flashcards</h2>
+        <p>Master senior .NET concepts through spaced active recall. Test yourself and flip to verify.</p>
+      </div>
+
+      <div style="max-width: 750px; margin: 0 auto 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <select id="flashcard-chapter-select" class="form-control select-responsive">
+          <option value="all">Entire Question Bank (353 Questions)</option>
+          <!-- Populated dynamically -->
+        </select>
+        <div style="font-size: 0.9rem; color: var(--text-secondary);" id="flashcard-counter-label">
+          Card 1 of 353
+        </div>
+      </div>
+
+      <div class="flashcard-container">
+        <div class="flashcard-inner" id="active-flashcard">
+          
+          <!-- Card Front: Question -->
+          <div class="flashcard-face flashcard-front">
+            <div>
+              <div class="q-meta-row" style="margin-bottom: 1rem;">
+                <span class="badge badge-chapter" id="fc-front-chapter">Chapter 1</span>
+                <span class="badge badge-standard" id="fc-front-id">Q1</span>
+              </div>
+              <h3 id="fc-front-q" style="font-size: 1.35rem; line-height: 1.5; color: var(--text-primary); margin-top: 1rem;">
+                Click or press Space to flip...
+              </h3>
+            </div>
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+              <span>👆 Click card or press <strong>Space</strong> to reveal answer</span>
+            </div>
+          </div>
+
+          <!-- Card Back: Answer, Best Practice, Pitfall -->
+          <div class="flashcard-face flashcard-back">
+            <div>
+              <div class="q-meta-row" style="margin-bottom: 0.75rem;">
+                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">Answer & Best Practice</span>
+              </div>
+              
+              <div style="margin-bottom: 1rem;">
+                <strong style="color: #a5b4fc; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Standard Explanation:</strong>
+                <p id="fc-back-a" style="font-size: 0.92rem; line-height: 1.5;"></p>
+              </div>
+
+              <div style="margin-bottom: 1rem; background: var(--success-bg); border-left: 3px solid var(--success); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm);">
+                <strong style="color: #6ee7b7; font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">💡 Best Practice / Example:</strong>
+                <p id="fc-back-bp" style="font-size: 0.85rem;"></p>
+              </div>
+
+              <div style="background: var(--danger-bg); border-left: 3px solid var(--danger); padding: 0.6rem 0.8rem; border-radius: var(--radius-sm);">
+                <strong style="color: #fca5a5; font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">⚠️ Wrong Usage Anti-Pattern:</strong>
+                <p id="fc-back-wu" style="font-size: 0.85rem;"></p>
+              </div>
+            </div>
+            
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+              <span>👆 Click card again to flip back</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation & Rating Controls -->
+      <div class="flashcard-controls">
+        <button class="btn btn-secondary" id="fc-prev-btn">
+          <span>←</span> Previous
+        </button>
+        <button class="btn btn-primary" id="fc-flip-btn">
+          <span>🔄</span> Flip Card (Space)
+        </button>
+        <button class="btn btn-secondary" id="fc-next-btn">
+          Next Card <span>→</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         5. CANDIDATE EVALUATION HISTORY VIEW
+         ====================================================================== -->
+    <section id="view-history" class="view-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 1.8rem; font-weight: 800;">📊 Past Candidate Evaluations</h2>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Review past completed technical interview sessions, scores, and candidate reports.</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline btn-sm" id="export-history-json-btn">Export Backup</button>
+          <button class="btn btn-danger btn-sm" id="clear-all-history-btn">Clear History</button>
+        </div>
+      </div>
+
+      <div id="history-list-container" class="question-cards-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       EVALUATION REPORT MODAL
+       ====================================================================== -->
+  <div class="modal-backdrop" id="evaluation-modal" style="display: none;">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">📋 Candidate Technical Evaluation Report</h3>
+          <p id="report-meta-sub" style="font-size: 0.8rem; color: var(--text-muted);">Generated automatically by the interview engine</p>
+        </div>
+        <button class="btn-icon" id="close-report-modal-btn">✕</button>
+      </div>
+
+      <div class="modal-body" id="printable-report-area">
+        
+        <!-- Score Banner -->
+        <div class="report-score-banner">
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: #a5b4fc; text-transform: uppercase;">Overall Recommendation</div>
+            <div id="report-decision" style="font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0.2rem 0;">Strong Senior Hire</div>
+            <div id="report-candidate-info" style="font-size: 0.9rem; color: var(--text-secondary);">Candidate: Alex Morgan | Senior .NET Engineer</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="score-big" id="report-overall-score">88%</div>
+            <div id="report-points-count" style="font-size: 0.85rem; color: var(--text-muted);">Score: 44 / 50 pts</div>
+          </div>
+        </div>
+
+        <!-- Topic Breakdown Bars -->
+        <div class="glass-card" style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-secondary);">Performance by Architecture Domain</h4>
+          <div id="report-domain-bars">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Question Breakdown Table -->
+        <div class="glass-card">
+          <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-secondary);">Question-by-Question Evaluation</h4>
+          <div id="report-questions-breakdown" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="print-report-btn">
+          <span>🖨️</span> Print / Save PDF
+        </button>
+        <button class="btn btn-secondary" id="copy-report-markdown-btn">
+          <span>📝</span> Copy Markdown
+        </button>
+        <button class="btn btn-primary" id="save-history-and-close-btn">
+          Save & Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating Scroll to Top Button -->
+  <button class="scroll-top-btn" id="scroll-top-btn" title="Scroll to top" aria-label="Scroll to top">
+    ↑
+  </button>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="questions-ch1-10.js"></script>
+  <script src="questions-ch11-20.js"></script>
+  <script src="revision-data.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
